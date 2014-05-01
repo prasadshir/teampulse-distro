@@ -6,7 +6,7 @@ dependencies[] = block
 dependencies[] = color
 dependencies[] = comment
 dependencies[] = contextual
-dependencies[] = dashboard
+;dependencies[] = dashboard
 dependencies[] = help
 dependencies[] = image
 dependencies[] = list
@@ -18,11 +18,15 @@ dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
 dependencies[] = shortcut
-dependencies[] = toolbar
-dependencies[] = overlay
+;dependencies[] = toolbar
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
+
+dependencies[] = devel
+dependencies[] = devel_generate
+dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
 
 dependencies[] = ctools
 dependencies[] = views
