@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implements hook_views_api().
+ */
+function teampulse_defaults_views_api() {
+  return array('api' => 3.0);
+}
+

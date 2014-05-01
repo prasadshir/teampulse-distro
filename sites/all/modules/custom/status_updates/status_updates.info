@@ -1,0 +1,6 @@
+name = Status Updates
+description = Allows users to post their statuses
+core = 7.x
+package = TeamPulse
+version = 0.2-dev
+dependencies[] = block

@@ -1,0 +1,111 @@
+	body {
+		font-size: 1.1em;
+		font-family: sans-serif;
+		background-color: #e3e9dc;
+		font-family: 'Ubuntu Condensed', sans-serif;
+		color: #878e83;
+	}
+
+	h1,h2,h3,h4 {
+		color: #007897;
+		font-weight: normal;
+	}
+
+	h1,h2 {
+		text-transform: lowercase;
+	}
+
+	h2 {
+		font-size: 1.6em;
+		letter-spacing: -1px;
+		margin-bottom: 1em;
+	}
+
+	h3,h4 {
+		color: #283121;
+		margin-bottom: 0.5em;
+	}
+
+	h3 {
+		font-size: 1.2em;
+		margin-bottom: 0.8em;
+	}
+
+	h4 {
+		font-size: 1em;
+	}
+
+	p, ul {
+		margin-top: 0;
+		margin-bottom: 1.25em;
+	}
+
+	strong {
+		color: #474e43;
+	}
+
+	img.left {
+		float: left;
+		margin: 2px 1.25em 0 0;
+	}
+
+	img.top {
+		margin: 4px 0 2.25em 0;
+	}
+
+	ul {
+		padding: 0.25em 0 0 0;
+	}
+
+	a {
+		color: #5d93a2;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+#main {
+background-color: #fff;
+}
+#header, #footer{
+background-color: #007294;
+background-image: -webkit-linear-gradient(top, #008dab, #007294);
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#008dab), to(#007294));
+background-image: -ms-linear-gradient(top, #008dab, #007294);
+background-image: -o-linear-gradient(top, #008dab, #007294);
+background-image: linear-gradient(top, #008dab, #007294);
+}
+
+#header h1 a, #navigation a, #footer {
+color: #fff;
+text-decoration: none;
+}
+
+#secondary-menu a, #footer a{
+color: #C7C7C7
+}
+#name-and-slogan {
+margin: .5em;
+padding: 1em;
+border-radius: 10px;
+border: solid 1px #006e8b;
+box-shadow: inset 0px 0px 0px 1px #12a0bf, 0px 1px 4px 0px rgba(0,0,0,0.10);
+background-color: #007b9d;
+background-image: -moz-linear-gradient(top, #008ead, #007b9d);
+background-image: -webkit-linear-gradient(top, #008ead, #007b9d);
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#008ead), to(#007b9d));
+background-image: -ms-linear-gradient(top, #008ead, #007b9d);
+background-image: -o-linear-gradient(top, #008ead, #007b9d);
+background-image: linear-gradient(top, #008ead, #007b9d);}
+
+p.submitted{
+	margin-top:0;
+	font-size: .8em;
+}
+
+article{
+padding-bottom: 1em;
+border-bottom: #ccc 1px solid;
+}

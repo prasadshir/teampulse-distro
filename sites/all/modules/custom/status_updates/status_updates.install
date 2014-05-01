@@ -1,0 +1,40 @@
+<?php 
+
+function status_updates_schema(){
+	$schema['status_updates'] = array(
+		'description' => 'Store Status Updates',
+		'fields'=> array(
+			'id'=> array(
+				'description' => 'Primary key',
+				'type'=>'serial',
+				'unsigned'=> TRUE,
+				'not null'=> TRUE,
+			),
+			
+			'status'=> array(
+				'description' => 'users status',
+				'type'=>'varchar',
+				 'length' => 32,
+				'not null'=> TRUE,				
+			),
+
+			'uid'=> array(
+				'description' => 'the user that added status',
+				'type'=>'int',
+				'not null'=> TRUE,				
+			),
+			
+			'created'=> array(
+				'description' => 'timestamp',
+				'type'=>'int',
+				'not null'=> TRUE,
+				'default'	=> 0
+			),	
+		),
+		'primary key' => array('id'),
+		'indexes' => array(
+			'user'=> array('uid'),
+		),
+	);
+	return $schema;
+}
