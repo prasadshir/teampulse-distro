@@ -2,11 +2,14 @@ name = TeamPulse
 description = Installs TeamPulse profile
 version = VERSION
 core = 7.x
+
 dependencies[] = block
 dependencies[] = color
 dependencies[] = comment
 dependencies[] = contextual
-;dependencies[] = dashboard
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
 dependencies[] = help
 dependencies[] = image
 dependencies[] = list
@@ -14,24 +17,20 @@ dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
 dependencies[] = path
-dependencies[] = taxonomy
-dependencies[] = dblog
+dependencies[] = rdf
 dependencies[] = search
 dependencies[] = shortcut
-;dependencies[] = toolbar
-dependencies[] = field_ui
-dependencies[] = file
-dependencies[] = rdf
+dependencies[] = taxonomy
 
-dependencies[] = devel
-dependencies[] = devel_generate
 dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
+dependencies[] = devel
+dependencies[] = devel_generate
 
+dependencies[] = calendar
 dependencies[] = ctools
+dependencies[] = date
 dependencies[] = views
 dependencies[] = views_ui
-dependencies[] = date
-dependencies[] = calendar
 
 dependencies[] = teampulse_defaults

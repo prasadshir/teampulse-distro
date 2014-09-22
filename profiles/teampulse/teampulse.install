@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Install, update and uninstall functions for the teampulse installation profile.
+ * Install, update and uninstall hooks for the Teampulse installation profile.
  */
 
 /**
@@ -193,7 +194,16 @@ function teampulse_install() {
       'cache' => -1,
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  $query = db_insert('block')->fields(array(
+    'module',
+    'delta',
+    'theme',
+    'status',
+    'weight',
+    'region',
+    'pages',
+    'cache',
+  ));
   foreach ($blocks as $block) {
     $query->values($block);
   }
@@ -203,8 +213,7 @@ function teampulse_install() {
   // list of available node type attributes, refer to the node type API
   // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
   $types = array(
-
-        array(
+    array(
       'type' => 'announcement',
       'name' => st('Announcement'),
       'base' => 'node_content',
@@ -213,8 +222,7 @@ function teampulse_install() {
       'modified' => 1,
       'locked' => 0,
     ),
-    
-        array(
+    array(
       'type' => 'document',
       'name' => st('Document'),
       'base' => 'node_content',
@@ -223,7 +231,7 @@ function teampulse_install() {
       'modified' => 1,
       'locked' => 0,
     ),
- 	     array(
+    array(
       'type' => 'gallery',
       'name' => st('Gallery'),
       'base' => 'node_content',
@@ -241,7 +249,6 @@ function teampulse_install() {
       'modified' => 1,
       'locked' => 0,
     ),
-
     array(
       'type' => 'event',
       'name' => st('Event'),
@@ -260,7 +267,6 @@ function teampulse_install() {
       'modified' => 1,
       'locked' => 0,
     ),
-
   );
 
   foreach ($types as $type) {
@@ -268,43 +274,17 @@ function teampulse_install() {
     node_type_save($type);
     node_add_body_field($type);
   }
-/*
-  // Insert default pre-defined RDF mapping into the database.
-  $rdf_mappings = array(
-    array(
-      'type' => 'node',
-      'bundle' => 'page',
-      'mapping' => array(
-        'rdftype' => array('foaf:Document'),
-      ),
-    ),
-    array(
-      'type' => 'node',
-      'bundle' => 'article',
-      'mapping' => array(
-        'field_image' => array(
-          'predicates' => array('og:image', 'rdfs:seeAlso'),
-          'type' => 'rel',
-        ),
-        'field_tags' => array(
-          'predicates' => array('dc:subject'),
-          'type' => 'rel',
-        ),
-      ),
-    ),
-  );
-  foreach ($rdf_mappings as $rdf_mapping) {
-    rdf_mapping_save($rdf_mapping);
-  }
-*/
+
   // Default "Basic page" to not be promoted and have comments disabled.
   variable_set('node_options_announcement', array('status'));
   variable_set('comment_announcement', COMMENT_NODE_HIDDEN);
 
-  // Don't display date and author information for "Basic page" nodes by default.
+  // Don't display date and author information for "Basic page" nodes by
+  // default.
   variable_set('node_submitted_announcement', FALSE);
 
-  // Enable user picture support and set the default to a square thumbnail option.
+  // Enable user picture support and set the default to a square thumbnail
+  // option.
   variable_set('user_pictures', '1');
   variable_set('user_picture_dimensions', '1024x1024');
   variable_set('user_picture_file_size', '800');
@@ -313,7 +293,8 @@ function teampulse_install() {
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
 
-  // Create a default vocabulary named "Tags", enabled for the 'article' content type.
+  // Create a default vocabulary named "Tags", enabled for the 'article'
+  // content type.
   $description = st('Use tags to group articles on similar topics into categories.');
   $vocabulary = (object) array(
     'name' => st('Tags'),
@@ -329,7 +310,6 @@ function teampulse_install() {
     'machine_name' => 'departments',
   );
   taxonomy_vocabulary_save($vocabulary1);
-
 
   $field = array(
     'field_name' => 'field_' . $vocabulary->machine_name,
@@ -347,7 +327,7 @@ function teampulse_install() {
   );
   field_create_field($field);
 
-$field1 = array(
+  $field1 = array(
     'field_name' => 'field_' . $vocabulary1->machine_name,
     'type' => 'taxonomy_term_reference',
     // Set cardinality to unlimited for tagging.
@@ -387,17 +367,13 @@ $field1 = array(
   );
   field_create_instance($instance);
 
- $help1 = st('Select appropriate department');
+  $help1 = st('Select appropriate department');
   $instance1 = array(
     'field_name' => 'field_' . $vocabulary1->machine_name,
     'entity_type' => 'node',
     'label' => 'Department',
     'bundle' => 'document',
     'description' => $help1,
-/*    'widget' => array(
-      'type' => 'taxonomy_autocomplete',
-      'weight' => -4,
-    ), */
     'display' => array(
       'default' => array(
         'type' => 'taxonomy_term_reference_link',
@@ -410,11 +386,12 @@ $field1 = array(
     ),
   );
   field_create_instance($instance1);
-  
-  // Create an image field named "Image", enabled for the 'article' content type.
-  // Many of the following values will be defaulted, they're included here as an illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_field/7
 
+  // Create an image field named "Image", enabled for the 'article' content
+  // type.
+  // Many of the following values will be defaulted, they're included here as
+  // an illustrative examples.
+  // @see http://api.drupal.org/api/function/field_create_field/7
   $field = array(
     'field_name' => 'field_image',
     'type' => 'image',
@@ -449,8 +426,9 @@ $field1 = array(
   );
   field_create_field($field);
 
-  // Many of the following values will be defaulted, they're included here as an illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_instance/7
+  // Many of the following values will be defaulted, they're included here as
+  // an illustrative examples.
+  // @see http://api.drupal.org/api/function/field_create_instance/7
   $instance = array(
     'field_name' => 'field_image',
     'entity_type' => 'node',
@@ -494,8 +472,9 @@ $field1 = array(
     ),
   );
   field_create_instance($instance);
-// Add gallery image field
- $instance = array(
+
+  // Add gallery image field.
+  $instance = array(
     'field_name' => 'field_gallery_image',
     'entity_type' => 'node',
     'label' => 'Image',
@@ -541,15 +520,27 @@ $field1 = array(
 
   // Enable default permissions for system roles.
   $filtered_html_permission = filter_permission_name($filtered_html_format);
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+    'access content',
+    'access comments',
+    $filtered_html_permission,
+  ));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+    'access content',
+    'access comments',
+    'post comments',
+    'skip comment approval',
+    $filtered_html_permission,
+  ));
 
-  // Create a default role for site administrators, with all available permissions assigned.
+  // Create a default role for site administrators, with all available
+  // permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
   user_role_save($admin_role);
   user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+
   // Set this as the administrator role.
   variable_set('user_admin_role', $admin_role->rid);
 
