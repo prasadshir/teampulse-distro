@@ -1,26 +1,24 @@
 <?php
+
 /**
-* @file
-* Collect email addresses from a firm within a node page or a block
-*/
+ * @file
+ * Collect email addresses from a firm within a node page or a block.
+ */
 
-/*
-* Implement hook_menu
-*/
-
-function status_updates_menu(){
-	$items = array();
-	$items['statuses'] = array(
-		'title' => 'Statuses',
-		'description' => 'Status updates of users',
-		'page callback' => 'status_updates_list',
-		'access arguments' => array('access content'),
-		'menu_name' => 'main-menu',
-	);
-	return $items;
+/**
+ * Implements hook_menu().
+ */
+function status_updates_menu() {
+  $items = array();
+  $items['statuses'] = array(
+    'title' => 'Statuses',
+    'description' => 'Status updates of users',
+    'page callback' => 'status_updates_list',
+    'access arguments' => array('access content'),
+    'menu_name' => 'main-menu',
+  );
+  return $items;
 }
-
-
 
 /**
  * Menu callback.
@@ -31,19 +29,19 @@ function status_updates_list() {
   $output = '';
   $rows = array();
   $header = array(
-   'User',
-   'Status',
-   'Created',
+    'User',
+    'Status',
+    'Created',
   );
 
-  // Dynamically load the schema for this table 
+  // Dynamically load the schema for this table.
   $fields = drupal_get_schema('status_updates');
 
-  // Intantiate a query object by using the db_select wrapper 
+  // Instantiate a query object by using the db_select wrapper.
   $query = db_select('status_updates', 's');
 
-
-  // Add our desired fields to the query, loading the fields for our table dynamically.
+  // Add our desired fields to the query, loading the fields for our table
+  // dynamically.
   $results = $query->fields('s', array_keys($fields['fields']))
     ->orderBy('s.created', $direction = 'DESC')
     ->execute()
@@ -52,12 +50,11 @@ function status_updates_list() {
   foreach ($results as $value) {
     $account = $value->uid ? user_load($value->uid) : '';
 
-   $rows[] = array(
+    $rows[] = array(
       'user' => $value->uid ? theme('username', array('account' => $account)) : '',
       'status' => check_plain($value->status),
       'date' => date('F j, Y g:i A', $value->created),
     );
-
   }
 
   $output .= theme('statuses_list', array('statuses' => $rows));
@@ -65,9 +62,8 @@ function status_updates_list() {
 }
 
 /**
-* Implement hook_theme
-**/
-
+ * Implements hook_theme().
+ */
 function status_updates_theme($existing, $type, $theme, $path) {
   return array(
     'statuses_list' => array(
@@ -78,85 +74,112 @@ function status_updates_theme($existing, $type, $theme, $path) {
   );
 }
 
-function theme_statuses_list($variables){
-//	print_r($variables['statuses']);
-	$output = '';
-	foreach($variables['statuses'] as $status){
-		//dpm($status);
-		$output .= '<article class="status-wrapper">';
-		$output .= '<span class="status-author">';
-		$output .= $status['user'];
-		$output .= ' says, </span>';
-		$output .= '<div class="status">';
-		$output .= $status['status'];
-		$output .= '</div>';
-		$output .= '<div class="status-info">';
-		$output .= '<span class="status-date">';
-		$output .= $status['date'];
-		$output .= '</span>';
-		$output .= '</div></article>';		
-	}
-	return $output;
+/**
+ * Returns a themed statuses list.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - 'statuses': an array of statuses to theme. Each status is an associative
+ *     array with the following keys:
+ *     - 'user': The name of the user.
+ *     - 'status': The status.
+ *     - 'date': The date.
+ */
+function theme_statuses_list($variables) {
+  $output = '';
+  foreach ($variables['statuses'] as $status) {
+    $output .= '<article class="status-wrapper">';
+    $output .= '<span class="status-author">';
+    $output .= $status['user'];
+    $output .= ' says, </span>';
+    $output .= '<div class="status">';
+    $output .= $status['status'];
+    $output .= '</div>';
+    $output .= '<div class="status-info">';
+    $output .= '<span class="status-date">';
+    $output .= $status['date'];
+    $output .= '</span>';
+    $output .= '</div></article>';
+  }
+  return $output;
 }
 
-function status_updates_post_form($form, $form_state){
-	global $user;
-	$form['status'] = array(
-		'#title' => t('Whats on your mind?'),
-		'#type' => 'textarea',
-		'#size' => 20,
-		'#description' => t('Post your status update'),
-		'#required' => TRUE,
-	);
-	$form['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Shout!'),
-	);
-	return $form;
+/**
+ * Form constructor for the status update form.
+ */
+function status_updates_post_form($form, &$form_state) {
+  $form['status'] = array(
+    '#title' => t('Whats on your mind?'),
+    '#type' => 'textarea',
+    '#size' => 20,
+    '#description' => t('Post your status update'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Shout!'),
+  );
+  return $form;
 }
 
-function status_updates_post_form_validate($form, &$form_state){
-
+/**
+ * Validate handler for the status update form.
+ *
+ * @see status_updates_post_form()
+ */
+function status_updates_post_form_validate($form, &$form_state) {
 }
 
-function status_updates_post_form_submit($form, &$form_state){
-	$status = $form_state['values']['status']; 
-	status_updates_post($status);
-	drupal_set_message(t('Thank you for shouting!'));
-	$form_state['redirect'] = 'statuses';
+/**
+ * Submit handler for the status update form.
+ *
+ * @see status_updates_post_form()
+ */
+function status_updates_post_form_submit($form, &$form_state) {
+  $status = $form_state['values']['status'];
+  status_updates_post($status);
+  drupal_set_message(t('Thank you for shouting!'));
+  $form_state['redirect'] = 'statuses';
 }
 
+/**
+ * Saves a status update to the database.
+ *
+ * @param string $status
+ *   A string of maximum 32 characters representing the user's status.
+ */
+function status_updates_post($status) {
+  global $user;
 
-function status_updates_post($status){
-
-	global $user;
-	
-	$values = array(
-		'uid' => $user->uid,
-		'status' => $status,
-		'created'=>time(),
-	);
-	drupal_write_record('status_updates', $values);
+  $values = array(
+    'uid' => $user->uid,
+    'status' => $status,
+    'created' => time(),
+  );
+  drupal_write_record('status_updates', $values);
 }
 
-
-function status_updates_block_info(){
-	$blocks = array();
-	$blocks['status_updates_post'] = array(
-		'info'=> t('Status update form'),
-	);
-	return $blocks;
+/**
+ * Implements hook_block_info().
+ */
+function status_updates_block_info() {
+  $blocks = array();
+  $blocks['status_updates_post'] = array(
+    'info' => t('Status update form'),
+  );
+  return $blocks;
 }
 
-
-function status_updates_block_view($delta){
-	$block = array();
-	switch ($delta){
-		case 'status_updates_post':
-		$block['subject'] = t('Status');
-		$block['content'] = drupal_get_form('status_updates_post_form');
-	
-		break;
-	}
-	return $block;
+/**
+ * Implements hook_block_view().
+ */
+function status_updates_block_view($delta) {
+  $block = array();
+  switch ($delta) {
+    case 'status_updates_post':
+      $block['subject'] = t('Status');
+      $block['content'] = drupal_get_form('status_updates_post_form');
+      break;
+  }
+  return $block;
 }
