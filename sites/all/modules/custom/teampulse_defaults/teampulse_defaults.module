@@ -7,3 +7,21 @@ function teampulse_defaults_views_api() {
   return array('api' => 3.0);
 }
 
+/**
+ * Implements hook_menu().
+ */
+function teampulse_defaults_menu() {
+  return array(
+    'frontpage' => array(
+      'page callback' => 'teampulse_defaults_frontpage',
+    ),
+  );
+}
+
+/**
+ * Page callback for the frontpage.
+ */
+function teampulse_defaults_frontpage() {
+  // The front page does not have any content.
+  return '';
+}
