@@ -31,27 +31,26 @@ function teampulse_install_tasks(){
 
 
 function teampulse_add_terms(){
-$vocabulary =  taxonomy_vocabulary_machine_name_load('departments'); 
-if($vocabulary){
-$vid = $vocabulary->vid;
-drupal_set_message('got the vid');
-drupal_set_message($vid);
-}
-else{
-$vid = 2;
-drupal_set_message('did not get the vid');
-}
+  $vocabulary =  taxonomy_vocabulary_machine_name_load('departments');
+  if($vocabulary){
+    $vid = $vocabulary->vid;
+    drupal_set_message('got the vid');
+    drupal_set_message($vid);
+  }
+  else {
+    $vid = 2;
+    drupal_set_message('did not get the vid');
+  }
 	$terms = array('Admin','Sales', 'Human Resource');
-//          print_r($terms);
-          
-           foreach ($terms as $term) {
-             drupal_set_message('starting terms add function');
- 	$newterm = new stdClass();
+  //  print_r($terms);
+
+  foreach ($terms as $term) {
+    drupal_set_message('starting terms add function');
+ 	  $newterm = new stdClass();
   	$newterm->name = $term; // The name of the term
   	$newterm->vid = $vid; // The ID of the parent vocabulary
   	$newterm->parent = 0; // This tells taxonomy that this is a top-level term
     taxonomy_term_save($newterm);
+    }
 
-		  }
-         
 }
