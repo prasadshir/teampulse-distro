@@ -1,7 +1,7 @@
 <?php
 /**
 * @file
-* Collect email addresses from a firm within a node page or a block
+* Collect email addresses from a form within a node page or a block
 */
 
 /*
