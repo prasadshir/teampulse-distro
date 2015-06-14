@@ -1,7 +1,7 @@
 <?php
 /**
 * @file
-* Collect email addresses from a firm within a node page or a block
+* Collect email addresses from a form within a node page or a block
 */
 
 /*
@@ -36,10 +36,10 @@ function status_updates_list() {
    'Created',
   );
 
-  // Dynamically load the schema for this table 
+  // Dynamically load the schema for this table
   $fields = drupal_get_schema('status_updates');
 
-  // Intantiate a query object by using the db_select wrapper 
+  // Instantiate a query object by using the db_select wrapper
   $query = db_select('status_updates', 's');
 
 
@@ -94,7 +94,7 @@ function theme_statuses_list($variables){
 		$output .= '<span class="status-date">';
 		$output .= $status['date'];
 		$output .= '</span>';
-		$output .= '</div></article>';		
+		$output .= '</div></article>';
 	}
 	return $output;
 }
@@ -102,7 +102,7 @@ function theme_statuses_list($variables){
 function status_updates_post_form($form, $form_state){
 	global $user;
 	$form['status'] = array(
-		'#title' => t('Whats on your mind?'),
+		'#title' => t('What\'s on your mind?'),
 		'#type' => 'textarea',
 		'#size' => 20,
 		'#description' => t('Post your status update'),
@@ -120,7 +120,7 @@ function status_updates_post_form_validate($form, &$form_state){
 }
 
 function status_updates_post_form_submit($form, &$form_state){
-	$status = $form_state['values']['status']; 
+	$status = $form_state['values']['status'];
 	status_updates_post($status);
 	drupal_set_message(t('Thank you for shouting!'));
 	$form_state['redirect'] = 'statuses';
@@ -130,7 +130,7 @@ function status_updates_post_form_submit($form, &$form_state){
 function status_updates_post($status){
 
 	global $user;
-	
+
 	$values = array(
 		'uid' => $user->uid,
 		'status' => $status,
@@ -155,7 +155,7 @@ function status_updates_block_view($delta){
 		case 'status_updates_post':
 		$block['subject'] = t('Status');
 		$block['content'] = drupal_get_form('status_updates_post_form');
-	
+
 		break;
 	}
 	return $block;
