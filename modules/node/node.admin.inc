@@ -329,6 +329,8 @@ function _node_mass_update_helper($nid, $updates) {
 }
 
 /**
+ * Implements callback_batch_operation().
+ *
  * Executes a batch operation for node_mass_update().
  *
  * @param array $nodes
@@ -367,7 +369,9 @@ function _node_mass_update_batch_process($nodes, $updates, &$context) {
 }
 
 /**
- * Menu callback: Reports the status of batch operation for node_mass_update().
+ * Implements callback_batch_finished().
+ *
+ * Reports the status of batch operation for node_mass_update().
  *
  * @param bool $success
  *   A boolean indicating whether the batch mass update operation successfully
@@ -471,6 +475,7 @@ function node_admin_nodes() {
   $header['operations'] = array('data' => t('Operations'));
 
   $query = db_select('node', 'n')->extend('PagerDefault')->extend('TableSort');
+  $query->addTag('node_admin_filter');
   node_build_filter_query($query);
 
   if (!user_access('bypass node access')) {
